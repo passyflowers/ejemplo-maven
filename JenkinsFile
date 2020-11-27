@@ -50,13 +50,5 @@ pipeline {
 
        }
 
-       stage('Stop') {
-            steps {
-             dir('C:\\Users\\passy\\Documents\\DiploDevOps\\Taller4\\ejemplo-maven-main')
-             {
-               echo 'bash mvnw spring-boot:stop &'
-            }
-         } 
-
        }     
     }
