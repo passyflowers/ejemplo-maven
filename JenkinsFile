@@ -57,6 +57,6 @@ pipeline {
                echo 'bash mvnw spring-boot:stop &'
             }
          } 
-
-       }     
-    }
+      }     
+   }
+}
