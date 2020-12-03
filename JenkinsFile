@@ -4,59 +4,51 @@ pipeline {
     stages {
            stage('Compile') {
             steps {
-            dir('C:\\Users\\passy\\Documents\\DiploDevOps\\Taller4\\ejemplo-maven-main')
-             {
+                    
                 sh './mvnw.cmd clean compile -e'
-             }
-            
-           }
-        }
+                  }
+              }
+        
 
             stage('Unit') {
             steps {
-            dir('C:\\Users\\passy\\Documents\\DiploDevOps\\Taller4\\ejemplo-maven-main')
-            {
                 sh './mvnw.cmd clean test -e'
-            }
-          }
-      }
+                  }
+                }
+      
 
             stage('Jar') {
             steps {
-             dir('C:\\Users\\passy\\Documents\\DiploDevOps\\Taller4\\ejemplo-maven-main')
-             {
+           
                 sh './mvnw.cmd clean package -e'
-            }
-          }
-        }
-
+                    }
+                }
+        
+         stage('sonar'){
+            steps{
+                  withSonarQubeEnv('Sonar'){
+                  sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar'
+                       }
+                    }
+                }
+         
              stage('Run') {
-            steps {
-             dir('C:\\Users\\passy\\Documents\\DiploDevOps\\Taller4\\ejemplo-maven-main')
-             {
+            steps{
                 echo 'nohup bash mvnw spring-boot:run &'
              }
-
-          }
-        }
+           }
         
         stage('Test') {
             steps {
-             dir('C:\\Users\\passy\\Documents\\DiploDevOps\\Taller4\\ejemplo-maven-main')
-             {
-               sh 'curl -X GET http://localhost:8081/rest/mscovid/test?msg=testing'
+                sh 'curl -X GET http://localhost:8081/rest/mscovid/test?msg=testing'
             }
          } 
 
-       }
-
        stage('Stop') {
             steps {
-             dir('C:\\Users\\passy\\Documents\\DiploDevOps\\Taller4\\ejemplo-maven-main')
-             {
                echo 'bash mvnw spring-boot:stop &'
             }
          } 
       }     
    }
-}
+
